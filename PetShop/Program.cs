@@ -1,4 +1,9 @@
 ﻿using System;
+using Microsoft.Extensions.DependencyInjection;
+using PetShop.Core.ApplicationService;
+using PetShop.Core.ApplicationService.Impl;
+using PetShop.Core.DomainService;
+using PetShop.Data;
 
 namespace PetShop
 {
@@ -6,7 +11,14 @@ namespace PetShop
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            FakeDB.InitData();
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddScoped<IPetRepository, PetRepository>();
+            serviceCollection.AddScoped<IPetService, PetService>();
+
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var petService = serviceProvider.GetRequiredService<IPetService>();
+            new MainMenu(petService);
         }
     }
 }

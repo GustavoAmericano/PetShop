@@ -1,18 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject />
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PetShop.Core.Entities\PetShop.Core.Entities.csproj" />
     <ProjectReference Include="..\PetShop.Core\PetShop.Core.csproj" />
-    <ProjectReference Include="..\PetShop.Data\PetShop.Data.csproj" />
   </ItemGroup>
 
 </Project>
