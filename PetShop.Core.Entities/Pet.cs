@@ -17,14 +17,7 @@ namespace PetShop.Core.Entities
 
         public override string ToString()
         {
-            return
-                "Name: " + Name +
-                "\r\nId: " + Id +
-                "\r\nType: " + PetType +
-                "\r\nColor: " + Color +
-                "\r\nDOB: " + BirthDate +
-                "\r\nSold: " + SoldDate +
-                "\r\nPrice: " + Price;
+            return "A nice " + PetType + ".";
         }
     }
 }
