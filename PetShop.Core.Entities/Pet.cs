@@ -14,10 +14,41 @@ namespace PetShop.Core.Entities
         public string Color { get; set; }
         public Double Price { get; set; }
 
+        public Pet(){}
+
+        public Pet(Pet pet)
+        {
+            Id = pet.Id;
+            Name = pet.Name;
+            PetType = pet.PetType;
+            BirthDate = pet.BirthDate;
+            SoldDate = pet.SoldDate;
+            Color = pet.Color;
+            Price = pet.Price;
+        }
 
         public override string ToString()
         {
             return "A nice " + PetType + ".";
+        }
+
+        public override bool Equals(object obj)
+        {
+            Pet pet = (Pet) obj;
+
+            if (Id == pet.Id
+                && Name == pet.Name
+                && PetType == pet.PetType
+                && BirthDate == pet.BirthDate
+                && SoldDate == pet.SoldDate
+                && Color == pet.Color
+                && Math.Abs(Price - pet.Price) < 0.02)
+            {
+                return true;
+            }
+
+            return false;
+
         }
     }
 }

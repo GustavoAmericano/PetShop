@@ -29,6 +29,11 @@ namespace PetShop.Core.ApplicationService.Impl
             return _petRepository.GetPetsPriceSort(ascend);
         }
 
+        public IEnumerable<Pet> SearchPetsByType(string type)
+        {
+            return _petRepository.SearchPetsByType(type);
+        }
+
         public Pet CreatePet(Pet pet)
         {
             if (pet.Color.Equals("Blyat"))
@@ -42,6 +47,11 @@ namespace PetShop.Core.ApplicationService.Impl
         public void DeletePet(Pet pet)
         {
             _petRepository.DeletePet(pet);
+        }
+
+        public void SavePet(Pet newPet)
+        {
+            _petRepository.SavePet(newPet);
         }
     }
 }

@@ -7,12 +7,12 @@ namespace PetShop.Data
 {
     public static class FakeDB
     {
-        public static List<Pet> _Pets;
+        public static List<Pet> _pets;
         public static int _Id;
 
         public static void InitData()
         {
-           _Pets = new List<Pet>
+           _pets = new List<Pet>
            {
                new Pet()
                {
@@ -51,7 +51,7 @@ namespace PetShop.Data
                    Price = 125.89,
                },
            };
-            _Id = _Pets.Last().Id;
+            _Id = _pets.OrderBy(x => x.Id).Last().Id;
         }
     }
 }

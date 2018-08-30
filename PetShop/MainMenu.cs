@@ -25,35 +25,34 @@ namespace PetShop
             {
                 Console.Clear();
                 Console.WriteLine("1. Show all pets\r\n" + 
-                                  "2. Show pets sorted by price\r\n" + 
-                                  "3. Create new pet.\r\n" +
-                                  "4. Show 5 cheapest pets" +
+                                  "2. Search pets by type\r\n" +
+                                  "3. Show pets sorted by price\r\n" +
+                                  "4. Show 5 cheapest pets\r\n" +
+                                  "5. Create new pet" +
                                   "\r\n\r\n" +
                                   "Type \"exit\" to exit the program.\r\n ");
                 Console.Write("Input: ");
                 var input = Console.ReadLine();
-
                 switch (input.ToLower())
                 {
                     case "1":
                         LoadAllPets();
                         break;
-
                     case "2":
-                        ShowPetsPriceSort();
+                        SearchPetByType();
                         break;
                     case "3":
+                        ShowPetsPriceSort();
+                        break;
+                    case "4":
                         GetFiveCheapest();
                         break;
-
-                    case "4":
+                    case "5":
                         CreatePet();
                         break;
-
                     case "exit":
                         _isRunning = false;
                         break;
-
                     default:
                         Console.Write("Unrecognized input. Press any key and try again.");
                         Console.ReadKey();
@@ -66,77 +65,73 @@ namespace PetShop
         {
             IEnumerable<Pet> temp = new List<Pet>();
             Console.Clear();
-            Console.Write("1. Cheapest -> Highest\r\n2. Highest -> Cheapest\r\nInput:");
+            Console.Write("1. Cheapest -> Highest\r\n2. Highest -> Cheapest" +
+                          "\r\nType back to return to previous menu\r\nInput:");
             string input = Console.ReadLine();
 
             while ((!input.Equals("1") && !input.Equals("2")))
             {
-                Console.Write("Invalid input.\r\nType 1 for ascending order, or 2 for descending order. \r\nInput:");
+                Console.Write("Invalid input.\r\nType 1 for ascending order, or 2 for descending order." +
+                              " \r\nType back to return to previous menu\r\nInput:");
                 input = Console.ReadLine();
             }
-
             Console.Clear();
-
             switch (input)
             {
+                case "back":
+                    return;
                 case "1":
-                    temp = _petService.GetPetsPriceSort(true);
+                    while (InteractWithPet(_petService.GetPetsPriceSort(true).ToList()));
                     break;
                 case "2":
-                   temp = _petService.GetPetsPriceSort(false);
+                    while (InteractWithPet(_petService.GetPetsPriceSort(false).ToList()));
                     break;
             }
-
-            temp.ToList().ForEach(x =>
-            {
-                PrintPet(x);
-                Console.WriteLine();
-            });
-            Console.ReadLine();
         }
 
         private void GetFiveCheapest()
         {
-            Console.Clear();
-            _petService.GetFiveCheapest().ToList().ForEach(x =>
-            {
-                PrintPet(x);
-                Console.WriteLine();
-            });
-            Console.ReadLine();
+            while (InteractWithPet(_petService.GetFiveCheapest().ToList()));
         }
 
         private void LoadAllPets()
         {
+            while (InteractWithPet(_petService.GetAllPets().ToList()));
+        }
+
+        private void SearchPetByType()
+        {
+            
             Console.Clear();
-            List<Pet> pets = _petService.GetAllPets().ToList();
+            Console.Write("Enter type or part of type. \r\nInput:");
+            string input = Console.ReadLine();
+            while (InteractWithPet(_petService.SearchPetsByType(input).ToList()));
+           
+        }
+
+        private bool InteractWithPet(List<Pet> pets)
+        {
+            Console.Clear();
             pets.ForEach(x =>
             {
                 PrintPet(x);
                 Console.WriteLine();
             });
             Pet pet = SelectPet(pets);
-            if (pet != null)
-            {
-                InteractWithPet(pet);
-            }            
-        }
-
-        private void InteractWithPet(Pet pet)
-        {
+            if(pet == null) return false;
             Console.Clear();
             PrintPet(pet);
-            Console.Write("\r\n1. Edit pet" + 
-                          "\r\n2. Delete pet" + 
-                          "\r\n\r\nType back to return to main menu." +
-                          "\r\n\r\nInput: "
+            Console.Write("\n1. Edit pet" + 
+                          "\n2. Delete pet" + 
+                          "\n\nType back to return to main menu." +
+                          "\n\nInput: "
                           );
             string input = Console.ReadLine();
 
             switch (input)
             {
                 case "back":
-                    return;
+                    return true;
                 case "1":
                     EditPet(pet);
                     break;
@@ -144,20 +139,21 @@ namespace PetShop
                     _petService.DeletePet(pet);
                     break;
                 default:
-                    break;
+                    return true;
             }
 
+            return true;
         }
 
         private void EditPet(Pet pet)
         {
-            Pet localPet = pet;
+            Pet localPet = new Pet(pet);
             bool active = true;
             while (active)
             {
                 Console.Clear();
                 Console.Write(
-                    "\r\n1. Name: " +  localPet.Name +
+                    "\r\n1. Name: " + localPet.Name +
                     "\r\n2. Type: " + localPet.PetType +
                     "\r\n3. Color: " + localPet.Color +
                     "\r\n4. Date of Birth: " + localPet.BirthDate +
@@ -174,27 +170,62 @@ namespace PetShop
                         active = false;
                         break;
                     case "1":
-
+                        Console.Write("Enter new name of pet: ");
+                        localPet.Name = Console.ReadLine();
                         break;
                     case "2":
-
+                        Console.Write("Enter new type of pet: ");
+                        localPet.PetType = Console.ReadLine();
                         break;
                     case "3":
-
+                        Console.Write("Enter new color of pet: ");
+                        localPet.Color = Console.ReadLine();
                         break;
                     case "4":
-
+                        Console.Write("Enter new DOB of pet: ");
+                        localPet.BirthDate = GetValidDate();
                         break;
                     case "5":
-
+                        Console.Write("Enter new sold date of pet: ");
+                        localPet.SoldDate = GetValidDate();
                         break;
                     case "6":
-
+                        Console.Write("\r\nEnter price of pet: ");
+                    localPet.Price = GetValidPrice();
                         break;
-
                 }
-
             }
+
+            if (pet.Equals(localPet))
+            {
+                return;
+            }
+            else
+            {
+                Console.Clear();
+                Console.Write("Changes were made to the pet." +
+                              "\r\nDo you wish to save the changes?(Y/N)" +
+                              "\r\nInput:");
+                string input = Console.ReadLine();
+                if (input.ToLower().Equals("y") || input.ToLower().Equals("n"))
+                {
+                    if (input.ToLower().Equals("y"))
+                        _petService.SavePet(localPet);
+                    else return;
+                }
+            }
+        }
+
+        private double GetValidPrice()
+        {
+            var priceAsString = Console.ReadLine();
+            Double price;
+            while (!Double.TryParse(priceAsString, out price))
+            {
+                Console.Write("\r\nInvalid input. Numbers only: ");
+                priceAsString = Console.ReadLine();
+            }
+            return price;
         }
 
         private void CreatePet()
@@ -206,25 +237,10 @@ namespace PetShop
             var type = Console.ReadLine();
             Console.Write("\r\nEnter color of pet: ");
             var color = Console.ReadLine();
-
             Console.Write("\r\nEnter DOB of pet: ");
-            var dobString = Console.ReadLine();
-            DateTime dob;
-            while (!DateTime.TryParse(dobString, out dob))
-            {
-                Console.Write("Invalid input. Accepted format is e.g: 10-10-2010.\r\nInput:");
-                dobString = Console.ReadLine();
-            }
-
+            var dob = GetValidDate();
             Console.Write("\r\nEnter price of pet: ");
-            var priceAsString = Console.ReadLine();
-            Double price;
-            while (!Double.TryParse(priceAsString, out price))
-            {
-                Console.Write("\r\nInvalid input. Numbers only: ");
-                priceAsString = Console.ReadLine();
-            }
-
+            Double price = GetValidPrice();
             PrintPet(_petService.CreatePet(new Pet()
             {
                 Name = name,
@@ -237,17 +253,24 @@ namespace PetShop
             Console.ReadLine();
         }
 
+        private DateTime GetValidDate()
+        {
+            string dateString = Console.ReadLine();
+            DateTime date;
+            while (!DateTime.TryParse(dateString, out date))
+            {
+                Console.Write("Invalid input. Accepted format is e.g: 10-10-2010.\r\nInput:");
+                dateString = Console.ReadLine();
+            }
+
+            return date;
+        }
+
         private void PrintPet(Pet pet)
         {
             String sold;
-            if (pet.SoldDate.Year == 0001)
-            {
-                sold = "No";
-            }
-            else
-            {
-                sold = pet.SoldDate.ToString();
-            }
+            sold = pet.SoldDate.Year == 0001 ? "No" : pet.SoldDate.ToString();
+            
             Console.WriteLine(
                 "Name: " + pet.Name + "  (" + pet.Id + ")" +
                 "\r\nType: " + pet.PetType +
@@ -262,13 +285,12 @@ namespace PetShop
         {
             Pet pet = null;
             Console.Write("Type index of pet you wish to interact with.\r\n" +
-                              "Type back to go back to main menu. \r\n\r\n" +
+                              "Type back to go back to previous menu. \r\n\r\n" +
                               "Input: ");
             bool active = true;
             while (active)
             {
                 string input = Console.ReadLine();
-
                 int Id;
                 if (input.ToLower().Equals("back"))
                 {
@@ -288,7 +310,7 @@ namespace PetShop
                     {
                         Console.WriteLine("Pet with ID " + Id + " does not exist in current context.");
                         Console.Write("Type index of pet you wish to interact with.\r\n" +
-                                      "Type back to go back to main menu. \r\n\r\n" +
+                                      "Type back to go back to previous menu. \r\n\r\n" +
                                       "Input: ");
                     }
                 }
@@ -296,11 +318,10 @@ namespace PetShop
                 {
                     Console.Write("Invalid Input. Please retry. \r\nInput: ");
                     Console.Write("Type index of pet you wish to interact with.\r\n" +
-                                  "Type back to go back to main menu. \r\n\r\n" +
+                                  "Type back to go back to previous menu. \r\n\r\n" +
                                   "Input: ");
                 }
             }
-
             return pet;
         }
     }
