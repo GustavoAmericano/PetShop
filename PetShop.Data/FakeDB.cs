@@ -30,14 +30,14 @@ namespace PetShop.Data
                    PetType = "Dog",
                    Color = "maroon Red",
                    BirthDate = DateTime.Today,
-                   Price = 150,
+            Price = 150,
                },
                new Pet()
                {
                    Id = 2,
                    Name = "Linux",
                    PetType = "Penguin",
-                   Color = "Black & White",
+                   Color = "Black & Yellow (And white)",
                    BirthDate = DateTime.MinValue.Date,
                    Price = 1337,
                },

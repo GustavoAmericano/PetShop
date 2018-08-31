@@ -19,12 +19,7 @@ namespace PetShop.Data
 
         public IEnumerable<Pet> GetFiveCheapest()
         {
-            int last = 5;
-            if (FakeDB._pets.Count < 5)
-            {
-                last = FakeDB._pets.Count;
-            }
-            return FakeDB._pets.OrderBy(x => x.Price).ToList().GetRange(0, last);
+            return FakeDB._pets.FindAll(x => x.BirthDate.Year == 0001).OrderBy(x => x.Price).Take(5);
         }
 
         public IEnumerable<Pet> GetPetsPriceSort(bool ascend)

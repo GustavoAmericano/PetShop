@@ -11,6 +11,7 @@ namespace PetShop
     {
         static void Main(string[] args)
         {
+            NewConsole nc = new NewConsole();
             FakeDB.InitData();
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddScoped<IPetRepository, PetRepository>();
