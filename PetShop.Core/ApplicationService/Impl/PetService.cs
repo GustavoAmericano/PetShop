@@ -34,6 +34,11 @@ namespace PetShop.Core.ApplicationService.Impl
             return _petRepository.SearchPetsByType(type);
         }
 
+        public IEnumerable<Pet> GetPetsByOwnerId(int id)
+        {
+            return _petRepository.GetPetsByOwnerId(id);
+        }
+
         public Pet CreatePet(Pet pet)
         {
             if (pet.Color.Equals("Blyat"))

@@ -10,6 +10,7 @@ namespace PetShop.Core.DomainService
         IEnumerable<Pet> GetFiveCheapest();
         IEnumerable<Pet> GetPetsPriceSort(bool ascend);
         IEnumerable<Pet> SearchPetsByType(string type);
+        IEnumerable<Pet> GetPetsByOwnerId(int id);
 
         Pet CreatePet(Pet pet);
         void DeletePet(Pet pet);

@@ -13,6 +13,7 @@ namespace PetShop.Core.Entities
         public DateTime SoldDate { get; set; }
         public string Color { get; set; }
         public Double Price { get; set; }
+        public int OwnerId { get; set; }
 
         public Pet(){}
 
@@ -25,6 +26,7 @@ namespace PetShop.Core.Entities
             SoldDate = pet.SoldDate;
             Color = pet.Color;
             Price = pet.Price;
+            OwnerId = pet.OwnerId;
         }
 
         public override string ToString()
@@ -42,7 +44,8 @@ namespace PetShop.Core.Entities
                 && BirthDate == pet.BirthDate
                 && SoldDate == pet.SoldDate
                 && Color == pet.Color
-                && Math.Abs(Price - pet.Price) < 0.02)
+                && Math.Abs(Price - pet.Price) < 0.02
+                && OwnerId == pet.OwnerId)
             {
                 return true;
             }

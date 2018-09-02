@@ -35,9 +35,14 @@ namespace PetShop.Data
             return FakeDB._pets.FindAll(x => x.PetType.ToLower().Contains(type.ToLower()));
         }
 
+        public IEnumerable<Pet> GetPetsByOwnerId(int id)
+        {
+            return FakeDB._pets.FindAll(x => x.OwnerId == id);
+        }
+
         public Pet CreatePet(Pet pet)
         {
-            pet.Id = ++FakeDB._Id;
+            pet.Id = ++FakeDB._petId;
             FakeDB._pets.Add(pet);
             return pet;
         }
