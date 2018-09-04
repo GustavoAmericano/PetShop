@@ -13,8 +13,10 @@ namespace PetShop.Core.DomainService
         IEnumerable<Pet> GetPetsByOwnerId(int id);
 
         Pet CreatePet(Pet pet);
-        void DeletePet(Pet pet);
-        void SavePet(Pet newPet);
+        void DeletePet(int id);
+        void SavePet(int id, Pet newPet);
+
+        Pet GetPetById(int id);
 
     }
 

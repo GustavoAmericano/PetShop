@@ -49,14 +49,19 @@ namespace PetShop.Core.ApplicationService.Impl
             return _petRepository.CreatePet(pet);
         }
 
-        public void DeletePet(Pet pet)
+        public void DeletePet(int id)
         {
-            _petRepository.DeletePet(pet);
+            _petRepository.DeletePet(id);
         }
 
-        public void SavePet(Pet newPet)
+        public void SavePet(int id, Pet newPet)
         {
-            _petRepository.SavePet(newPet);
+            _petRepository.SavePet(id, newPet);
+        }
+
+        public Pet GetPetById(int id)
+        {
+           return _petRepository.GetPetById(id);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using PetShop.Core.DomainService;
 using PetShop.Core.Entities;
 
@@ -47,15 +48,21 @@ namespace PetShop.Data
             return pet;
         }
 
-        public void DeletePet(Pet pet)
+        public void DeletePet(int id)
         {
-            FakeDB._pets.Remove(pet);
+            FakeDB._pets.Remove(FakeDB._pets.Find(x => x.Id == id));
         }
 
 
-        public void SavePet(Pet pet)
+        public void SavePet(int id, Pet pet)
         {
-            FakeDB._pets[FakeDB._pets.FindIndex(x => x.Id == pet.Id)] = pet;
+            pet.Id = id;
+            FakeDB._pets[FakeDB._pets.FindIndex(x => x.Id == id)] = pet;
+        }
+
+        public Pet GetPetById(int id)
+        {
+            return FakeDB._pets.Find(x => x.Id == id);
         }
     }
 }
