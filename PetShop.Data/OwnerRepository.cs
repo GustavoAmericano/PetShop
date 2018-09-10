@@ -23,7 +23,26 @@ namespace PetShop.Data
 
         public Owner GetOwnerById(int id)
         {
-            return FakeDB._owners.First(x => x.Id == id);
+            if(FakeDB._owners.Exists(x => x.Id == id))
+            {
+                return FakeDB._owners.First(x => x.Id == id);
+
+            }
+            return null;
+        }
+
+        public void SaveOwner(int id, Owner owner)
+        {
+            owner.Id = id;
+            FakeDB._owners[FakeDB._owners.FindIndex(x => x.Id == id)] = owner;
+        }
+
+        public void DeleteOwner(int id)
+        {
+            if(FakeDB._owners.Exists(x  => x.Id == id))
+            {
+                FakeDB._owners.Remove(FakeDB._owners.Find(x => x.Id == id));
+            }
         }
     }
 }

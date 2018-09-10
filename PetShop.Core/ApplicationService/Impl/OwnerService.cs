@@ -38,5 +38,15 @@ namespace PetShop.Core.ApplicationService.Impl
             // Check for null etc here..
             return o;
         }
+
+        public void SaveOwner(int id, Owner owner)
+        {
+            _ownerRepository.SaveOwner(id, owner);
+        }
+
+        public void DeleteOwner(int id)
+        {
+            _ownerRepository.DeleteOwner(id);
+        }
     }
 }

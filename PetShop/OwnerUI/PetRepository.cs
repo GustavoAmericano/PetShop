@@ -38,11 +38,7 @@ namespace PetShop.Data
 
         public IEnumerable<Pet> GetPetsByOwnerId(int id)
         {
-            if (FakeDB._pets.Exists(x => x.Id == id))
-            {
-                return FakeDB._pets.FindAll(x => x.OwnerId == id);
-            }
-            return null;
+            return FakeDB._pets.FindAll(x => x.OwnerId == id);
         }
 
         public Pet CreatePet(Pet pet)
