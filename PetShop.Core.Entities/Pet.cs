@@ -13,7 +13,7 @@ namespace PetShop.Core.Entities
         public DateTime SoldDate { get; set; }
         public string Color { get; set; }
         public Double Price { get; set; }
-        public int OwnerId { get; set; }
+        public Owner Owner { get; set; }
 
         public Pet(){}
 
@@ -26,7 +26,7 @@ namespace PetShop.Core.Entities
             SoldDate = pet.SoldDate;
             Color = pet.Color;
             Price = pet.Price;
-            OwnerId = pet.OwnerId;
+            Owner = pet.Owner;
         }
 
         public override string ToString()
@@ -34,24 +34,25 @@ namespace PetShop.Core.Entities
             return "A nice " + PetType + ".";
         }
 
-        public override bool Equals(object obj)
-        {
-            Pet pet = (Pet) obj;
+        //public override bool Equals(object obj)
+        //{
+        //    Pet pet = (Pet) obj;
 
-            if (Id == pet.Id
-                && Name == pet.Name
-                && PetType == pet.PetType
-                && BirthDate == pet.BirthDate
-                && SoldDate == pet.SoldDate
-                && Color == pet.Color
-                && Math.Abs(Price - pet.Price) < 0.02
-                && OwnerId == pet.OwnerId)
-            {
-                return true;
-            }
+        //    if (Id == pet.Id
+        //        && Name == pet.Name
+        //        && PetType == pet.PetType
+        //        && BirthDate == pet.BirthDate
+        //        && SoldDate == pet.SoldDate
+        //        && Color == pet.Color
+        //        && Math.Abs(Price - pet.Price) < 0.02
+        //        //&& Owner == pet.Owner
+        //        )
+        //    {
+        //        return true;
+        //    }
 
-            return false;
+        //    return false;
 
-        }
+        //}
     }
 }

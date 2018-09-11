@@ -7,15 +7,15 @@ namespace PetShop.Data
 {
     public static class FakeDB
     {
-        public static List<Pet> _pets;
-        public static List<Owner> _owners;
-        public static int _petId;
-        public static int _ownerId;
+        public static List<Pet> pets;
+        public static List<Owner> owners;
+        public static int petId;
+        public static int ownerId;
 
         public static void InitData()
         {
             Random rnd = new Random();
-            _owners = new List<Owner>
+            owners = new List<Owner>
             {
                 new Owner()
                 {
@@ -52,7 +52,7 @@ namespace PetShop.Data
                 },
             };
 
-            _pets = new List<Pet>
+            pets = new List<Pet>
            {
                new Pet()
                {
@@ -62,7 +62,7 @@ namespace PetShop.Data
                    Color = "Cyan blue",
                    BirthDate = DateTime.MinValue.Date,
                    Price = 0.001,
-                   OwnerId = _owners[rnd.Next(_owners.Count)].Id
+                   Owner = new Owner(){Id = 29}
                },
                new Pet()
                {
@@ -72,7 +72,7 @@ namespace PetShop.Data
                    Color = "maroon Red",
                    BirthDate = DateTime.Today,
                    Price = 150,
-                   OwnerId = _owners[rnd.Next(_owners.Count)].Id
+                   Owner = new Owner(){Id = 29}
                },
                new Pet()
                {
@@ -82,7 +82,7 @@ namespace PetShop.Data
                    Color = "Black & Yellow (And white)",
                    BirthDate = DateTime.MinValue.Date,
                    Price = 1337,
-                   OwnerId = _owners[rnd.Next(_owners.Count)].Id
+                   Owner = new Owner(){Id = 0}
                },
                new Pet()
                {
@@ -92,12 +92,13 @@ namespace PetShop.Data
                    Color = "Black",
                    BirthDate = DateTime.MinValue.Date,
                    Price = 125.89,
-                   OwnerId = _owners[rnd.Next(_owners.Count)].Id
+                   Owner = new Owner(){Id = 0}
                },
            };
 
-            _petId = _pets.OrderBy(x => x.Id).Last().Id;
-            _ownerId = _owners.OrderBy(x => x.Id).Last().Id;
+
+            petId = pets.OrderBy(x => x.Id).Last().Id;
+            ownerId = owners.OrderBy(x => x.Id).Last().Id;
         }
     }
 }

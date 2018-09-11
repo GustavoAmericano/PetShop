@@ -11,22 +11,31 @@ namespace PetShop.Data
 
         public IEnumerable<Owner> GetAllOwners()
         {
-            return FakeDB._owners;
+            return FakeDB.owners;
         }
 
         public Owner CreateOwner(Owner owner)
         {
-            owner.Id = ++FakeDB._ownerId;
-            FakeDB._owners.Add(owner);
+            owner.Id = ++FakeDB.ownerId;
+            FakeDB.owners.Add(owner);
             return owner;
         }
 
         public Owner GetOwnerById(int id)
         {
-            if(FakeDB._owners.Exists(x => x.Id == id))
+            if(FakeDB.owners.Exists(x => x.Id == id))
             {
-                return FakeDB._owners.First(x => x.Id == id);
-
+                return FakeDB.owners.
+                    Select(x => new Owner()
+                    {
+                        Id = x.Id,
+                        FirstName = x.FirstName,
+                        LastName = x.LastName, 
+                        Address =  x.Address,
+                        PhoneNumber = x.PhoneNumber,
+                        Email = x.Email
+                    }).
+                    FirstOrDefault(x => x.Id == id);
             }
             return null;
         }
@@ -34,14 +43,14 @@ namespace PetShop.Data
         public void SaveOwner(int id, Owner owner)
         {
             owner.Id = id;
-            FakeDB._owners[FakeDB._owners.FindIndex(x => x.Id == id)] = owner;
+            FakeDB.owners[FakeDB.owners.FindIndex(x => x.Id == id)] = owner;
         }
 
         public void DeleteOwner(int id)
         {
-            if(FakeDB._owners.Exists(x  => x.Id == id))
+            if(FakeDB.owners.Exists(x  => x.Id == id))
             {
-                FakeDB._owners.Remove(FakeDB._owners.Find(x => x.Id == id));
+                FakeDB.owners.Remove(FakeDB.owners.Find(x => x.Id == id));
             }
         }
     }

@@ -11,12 +11,12 @@ namespace PetShop.Core.DomainService
         IEnumerable<Pet> GetPetsPriceSort(bool ascend);
         IEnumerable<Pet> SearchPetsByType(string type);
         IEnumerable<Pet> GetPetsByOwnerId(int id);
+        Pet GetPetById(int id);
 
         Pet CreatePet(Pet pet);
         void DeletePet(int id);
         void SavePet(int id, Pet newPet);
 
-        Pet GetPetById(int id);
 
     }
 

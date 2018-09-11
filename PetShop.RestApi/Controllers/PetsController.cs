@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PetShop.Core.ApplicationService;
 using PetShop.Core.Entities;
@@ -33,7 +31,7 @@ namespace PetShop.RestApi.Controllers
         [HttpGet("{id}")]
         public ActionResult<Pet> Get(int id)
         {
-            Pet pet = _petService.GetPetById(id);
+            Pet pet = _petService.GetExtendedPet(id);
             if(pet == null)
             {
                 return BadRequest("Pet with ID " + id + " does not exist.");

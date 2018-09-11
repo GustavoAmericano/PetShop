@@ -8,10 +8,13 @@ namespace PetShop.Core.ApplicationService.Impl
     public class PetService : IPetService
     {
         private readonly IPetRepository _petRepository;
+        private IOwnerRepository _ownerRepository;
 
-        public PetService(IPetRepository petRepository)
+        public PetService(IPetRepository petRepository,
+            IOwnerRepository ownerRepository)
         {
             _petRepository = petRepository;
+            _ownerRepository = ownerRepository;
         }
 
         public IEnumerable<Pet> GetAllPets()
@@ -38,6 +41,15 @@ namespace PetShop.Core.ApplicationService.Impl
         {
             return _petRepository.GetPetsByOwnerId(id);
         }
+
+        public Pet GetExtendedPet(int id)
+        {
+            Pet pet = GetPetById(id);
+            if (pet == null) return null;
+            pet.Owner = _ownerRepository.GetOwnerById(pet.Owner.Id);
+            return pet;
+        }
+
 
         public Pet CreatePet(Pet pet)
         {

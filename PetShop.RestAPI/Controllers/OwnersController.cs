@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using PetShop.Core.ApplicationService;
-using PetShop.Core.ApplicationService.Impl;
 using PetShop.Core.Entities;
 
 namespace PetShop.RestApi.Controllers
@@ -31,7 +26,7 @@ namespace PetShop.RestApi.Controllers
         [HttpGet("{id}", Name = "Get")]
         public ActionResult<Owner> Get(int id)
         {
-            Owner owner = _ownerService.GetOwnerById(id);
+            Owner owner = _ownerService.GetExtendedOwner(id);
             if(owner == null)
             {
                 return BadRequest("Owner with Id " + id + " does not exist");
