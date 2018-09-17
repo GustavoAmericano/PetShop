@@ -158,7 +158,7 @@ namespace PetShop.PetUI
                     EditPet(pet);
                     break;
                 case "2":
-                    _petService.DeletePet(pet);
+                    //_petService.DeletePet(pet);
                     break;
                 default:
                     return true;
@@ -232,9 +232,9 @@ namespace PetShop.PetUI
             string input1 = Console.ReadLine();
             if (input1.ToLower().Equals("y") || input1.ToLower().Equals("n"))
             {
-                if (input1.ToLower().Equals("y"))
-                    _petService.SavePet(localPet);
-                else return;
+                //if (input1.ToLower().Equals("y"))
+                //    _petService.SavePet(localPet); @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                //else return;
             }
         }
 

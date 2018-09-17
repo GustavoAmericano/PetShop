@@ -14,11 +14,13 @@ namespace PetShop.Core.Entities
         public string Color { get; set; }
         public Double Price { get; set; }
         public Owner Owner { get; set; }
+        public int OwnerId { get; set; }
 
         public Pet(){}
 
         public Pet(Pet pet)
         {
+            OwnerId = pet.OwnerId;
             Id = pet.Id;
             Name = pet.Name;
             PetType = pet.PetType;

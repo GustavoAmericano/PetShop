@@ -25,11 +25,11 @@ namespace PetShop.Core.ApplicationService.Impl
 
         public Owner CreateOwner(Owner owner)
         {
-            if (!owner.Email.Contains("@"))
-            {
-                throw new Exception("Not a valid email.");
-            }
-            else
+            //if (!owner.Email.Contains("@"))
+            //{
+            //    throw new Exception("Not a valid email.");
+            //}
+            //else
             {
                 return _ownerRepository.CreateOwner(owner);
             }

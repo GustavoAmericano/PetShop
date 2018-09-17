@@ -46,7 +46,7 @@ namespace PetShop.Core.ApplicationService.Impl
         {
             Pet pet = GetPetById(id);
             if (pet == null) return null;
-            pet.Owner = _ownerRepository.GetOwnerById(pet.Owner.Id);
+            pet.Owner = _ownerRepository.GetOwnerById(pet.OwnerId); // <-- SHOULD BE pet.Owner.Id !!@@@@@@@@@@@@@@@@@@@@@@@@@
             return pet;
         }
 

@@ -15,14 +15,14 @@ namespace PetShop.RestApi.Controllers
         {
             _ownerService = ownerService;
         }
-        // GET: api/Owner
+        // GET: api/owners
         [HttpGet]
         public IEnumerable<Owner> Get()
         {
             return _ownerService.GetAllOwners();
         }
 
-        // GET: api/Owner/5
+        // GET: api/owners/5
         [HttpGet("{id}", Name = "Get")]
         public ActionResult<Owner> Get(int id)
         {
@@ -34,7 +34,7 @@ namespace PetShop.RestApi.Controllers
             return owner;
         }
 
-        // POST: api/Owner
+        // POST: api/owners
         [HttpPost]
         public ActionResult<Owner> Post([FromBody] Owner owner)
         {
@@ -45,7 +45,7 @@ namespace PetShop.RestApi.Controllers
             return _ownerService.CreateOwner(owner);
         }
 
-        // PUT: api/Owner/5
+        // PUT: api/owners/5
         [HttpPut("{id}")]
         public ActionResult Put(int id, [FromBody] Owner owner)
         {
@@ -57,7 +57,7 @@ namespace PetShop.RestApi.Controllers
             return Ok();
         }
 
-        // DELETE: api/ApiWithActions/5
+        // DELETE: api/owners
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
