@@ -13,7 +13,6 @@
     <ProjectReference Include="..\PetShop.Core.Entities\PetShop.Core.Entities.csproj" />
     <ProjectReference Include="..\PetShop.Core\PetShop.Core.csproj" />
     <ProjectReference Include="..\PetShop.Data\PetShop.Data.csproj" />
-    <ProjectReference Include="..\Petshop.Static.Data\Petshop.Static.Data.csproj" />
   </ItemGroup>
 
 </Project>

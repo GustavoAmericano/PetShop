@@ -21,7 +21,6 @@
   <ItemGroup>
     <ProjectReference Include="..\PetShop.Core\PetShop.Core.csproj" />
     <ProjectReference Include="..\PetShop.Data\PetShop.Data.csproj" />
-    <ProjectReference Include="..\Petshop.Static.Data\Petshop.Static.Data.csproj" />
   </ItemGroup>
 
 </Project>

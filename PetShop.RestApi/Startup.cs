@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,6 +16,7 @@ using Newtonsoft.Json.Serialization;
 using PetShop.Core.ApplicationService;
 using PetShop.Core.ApplicationService.Impl;
 using PetShop.Core.DomainService;
+using PetShop.Core.Entities;
 using PetShop.Data;
 using PetShop.Data.SQLRepo;
 
@@ -24,7 +26,6 @@ namespace PetShop.RestApi
     {
         public Startup(IConfiguration configuration)
         {
-            FakeDB.InitData(); // Initialize FakeDB.. Old trash
             Configuration = configuration;
         }
 
@@ -50,7 +51,6 @@ namespace PetShop.RestApi
             // the owner within will not show it's pets.
             services.AddMvc().AddJsonOptions(options =>
             {
-                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -63,11 +63,10 @@ namespace PetShop.RestApi
             if (env.IsDevelopment()) // If in Dev..
             {
                 app.UseDeveloperExceptionPage();
-                using (var scope = app.ApplicationServices.CreateScope())
+                using (var scope = app.ApplicationServices.CreateScope()) // When done, dispose. Get accesspoint to stuff in the services
                 {
-                    var ctx = scope.ServiceProvider.GetService<PetShopContext>(); // Set context to the one needed.
-                    ctx.Database.EnsureDeleted(); // Delete ENTIRE Db!
-                    ctx.Database.EnsureCreated(); // Recreate Db
+                    var ctx = scope.ServiceProvider.GetService<PetShopContext>(); // Set ctx to reference to PetShopContext
+                    DBSeed.SeedDB(ctx);
                 }
             }
 

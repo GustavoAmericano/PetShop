@@ -44,11 +44,6 @@ namespace PetShop.Core.ApplicationService.Impl
 
         public Pet CreatePet(Pet pet)
         {
-            if (pet.Color.Equals("Blyat"))
-            {
-                throw new InvalidOperationException("Color cannot be blyat.");
-            }
-
             return _petRepository.CreatePet(pet);
         }
 

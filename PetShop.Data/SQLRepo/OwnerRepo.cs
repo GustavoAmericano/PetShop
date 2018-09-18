@@ -4,6 +4,7 @@ using PetShop.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace PetShop.Data.SQLRepo
@@ -36,6 +37,13 @@ namespace PetShop.Data.SQLRepo
         /// <param name="id"></param>
         public void DeleteOwner(int id)
         {
+            var pets = _ctx.Pets.Where(x => x.Owner.Id == id);
+            pets.ToList().ForEach(x =>
+            {
+                x.Owner = null;
+                _ctx.Update(x);
+            });
+            
             _ctx.Remove(_ctx.Owners.First(x => x.Id == id));
             _ctx.SaveChanges();
         }
