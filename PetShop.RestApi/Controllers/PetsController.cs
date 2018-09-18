@@ -31,7 +31,7 @@ namespace PetShop.RestApi.Controllers
         [HttpGet("{id}")]
         public ActionResult<Pet> Get(int id)
         {
-            Pet pet = _petService.GetExtendedPet(id);
+            Pet pet = _petService.GetPetById(id);
             if(pet == null)
             {
                 return BadRequest("Pet with ID " + id + " does not exist.");

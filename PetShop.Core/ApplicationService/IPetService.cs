@@ -13,7 +13,6 @@ namespace PetShop.Core.ApplicationService
         IEnumerable<Pet> GetPetsByOwnerId(int id);
 
         Pet GetPetById(int id);
-        Pet GetExtendedPet(int id);
 
         Pet CreatePet(Pet pet);
         void DeletePet(int id);

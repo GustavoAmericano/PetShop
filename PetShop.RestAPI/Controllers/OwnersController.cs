@@ -26,7 +26,7 @@ namespace PetShop.RestApi.Controllers
         [HttpGet("{id}", Name = "Get")]
         public ActionResult<Owner> Get(int id)
         {
-            Owner owner = _ownerService.GetExtendedOwner(id);
+            Owner owner = _ownerService.GetOwnerById(id);
             if(owner == null)
             {
                 return BadRequest("Owner with Id " + id + " does not exist");

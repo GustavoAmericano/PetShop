@@ -169,7 +169,7 @@ namespace PetShop.PetUI
         private void EditPet(Pet pet)
         {
             Pet localPet = new Pet(pet);
-            Owner owner = _ownerService.GetOwnerById(pet.OwnerId);
+            Owner owner = _ownerService.GetOwnerById(pet.Owner.Id);
             bool active = true;
             while (active)
             {
@@ -219,7 +219,7 @@ namespace PetShop.PetUI
                         break;
                     case "7":
                         owner = GetNewOwner();
-                        localPet.OwnerId = owner.Id;
+                        //localPet.OwnerId = owner.Id;
                         break;
                 }
             }
@@ -306,7 +306,7 @@ namespace PetShop.PetUI
                 Color = color,
                 BirthDate = dob,
                 Price = price,
-                OwnerId = ownerId,
+                //OwnerId = ownerId,
             });
         }
 
@@ -326,7 +326,7 @@ namespace PetShop.PetUI
         private void PrintPet(Pet pet)
         {
             var sold = pet.SoldDate.Year == 0001 ? "No" : pet.SoldDate.ToString();
-            Owner owner = _ownerService.GetOwnerById(pet.OwnerId);
+            Owner owner = _ownerService.GetOwnerById(pet.Owner.Id);
             Console.WriteLine(
                 //"Name: " + pet.Name + "  (\u001b[32m" + pet.Id + "\u001b[0m)" +
                 "_____________" + pet.Name + "_____________" +

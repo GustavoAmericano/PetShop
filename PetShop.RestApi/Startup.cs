@@ -24,7 +24,7 @@ namespace PetShop.RestApi
     {
         public Startup(IConfiguration configuration)
         {
-            FakeDB.InitData();
+            FakeDB.InitData(); // Initialize FakeDB.. Old trash
             Configuration = configuration;
         }
 
@@ -33,28 +33,42 @@ namespace PetShop.RestApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().AddJsonOptions(options =>
-            {
-                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            });
 
-            services.AddDbContext<PetShopContext>(opt => opt.UseInMemoryDatabase("Blyat"));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            // Tell Context that we use SQLite
+            services.AddDbContext<PetShopContext>(
+                opt => opt.UseSqlite("Data Source=PetShopDB.db"));
 
+            // Dependency Inject st00f
             services.AddScoped<IPetRepository, PetRepo>();
             services.AddScoped<IOwnerRepository, OwnerRepo>();
 
             services.AddScoped<IPetService, PetService>();
             services.AddScoped<IOwnerService, OwnerService>();
+
+            // Ensure we do not loop entities within entities.
+            // E.g. When getting a specific pet,
+            // the owner within will not show it's pets.
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment()) // If in Dev..
             {
                 app.UseDeveloperExceptionPage();
+                using (var scope = app.ApplicationServices.CreateScope())
+                {
+                    var ctx = scope.ServiceProvider.GetService<PetShopContext>(); // Set context to the one needed.
+                    ctx.Database.EnsureDeleted(); // Delete ENTIRE Db!
+                    ctx.Database.EnsureCreated(); // Recreate Db
+                }
             }
 
             app.UseMvc();

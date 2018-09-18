@@ -36,19 +36,11 @@ namespace PetShop.Core.ApplicationService.Impl
 
         }
 
-        public Owner GetExtendedOwner(int id)
-        {
-            Owner owner = _ownerRepository.GetOwnerById(id);
-            if (owner == null) return null;
-
-            owner.Pets = _petRepository.GetAllPets().Where(x => x.Owner.Id == owner.Id).ToList();
-            return owner;
-        }
 
         public Owner GetOwnerById(int id)
         {
             Owner o = _ownerRepository.GetOwnerById(id);
-            // Check for null etc here..
+            if (o == null) return null;
             return o;
         }
 

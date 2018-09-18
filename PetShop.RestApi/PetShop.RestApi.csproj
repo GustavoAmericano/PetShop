@@ -11,6 +11,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="2.1.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Design" Version="1.1.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
   </ItemGroup>
@@ -18,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\PetShop.Core\PetShop.Core.csproj" />
     <ProjectReference Include="..\PetShop.Data\PetShop.Data.csproj" />
+    <ProjectReference Include="..\Petshop.Static.Data\Petshop.Static.Data.csproj" />
   </ItemGroup>
 
 </Project>

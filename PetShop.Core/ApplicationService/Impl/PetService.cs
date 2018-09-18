@@ -42,15 +42,6 @@ namespace PetShop.Core.ApplicationService.Impl
             return _petRepository.GetPetsByOwnerId(id);
         }
 
-        public Pet GetExtendedPet(int id)
-        {
-            Pet pet = GetPetById(id);
-            if (pet == null) return null;
-            pet.Owner = _ownerRepository.GetOwnerById(pet.OwnerId); // <-- SHOULD BE pet.Owner.Id !!@@@@@@@@@@@@@@@@@@@@@@@@@
-            return pet;
-        }
-
-
         public Pet CreatePet(Pet pet)
         {
             if (pet.Color.Equals("Blyat"))
