@@ -10,6 +10,14 @@ namespace PetShop.Data
     {
         public PetShopContext(DbContextOptions<PetShopContext> dbContextOptions) : base(dbContextOptions) { }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Pet>()
+                .HasOne(p => p.Owner)
+                .WithMany(o => o.Pets)
+                .OnDelete(DeleteBehavior.SetNull);
+        }
+        
         public DbSet<Owner> Owners { get; set; }
         public DbSet<Pet> Pets { get; set; }
     }

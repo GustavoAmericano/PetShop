@@ -37,12 +37,12 @@ namespace PetShop.Data.SQLRepo
         /// <param name="id"></param>
         public void DeleteOwner(int id)
         {
-            var pets = _ctx.Pets.Where(x => x.Owner.Id == id);
-            pets.ToList().ForEach(x =>
-            {
-                x.Owner = null;
-                _ctx.Update(x);
-            });
+            //var pets = _ctx.Pets.Where(x => x.Owner.Id == id);
+            //pets.ToList().ForEach(x =>
+            //{
+            //    x.Owner = null;
+            //    _ctx.Update(x);
+            //});
             
             _ctx.Remove(_ctx.Owners.First(x => x.Id == id));
             _ctx.SaveChanges();
@@ -74,7 +74,8 @@ namespace PetShop.Data.SQLRepo
         /// <param name="owner"></param>
         public void SaveOwner(int id, Owner owner)
         {
-            throw new NotImplementedException();
+            _ctx.Update(owner);
+            _ctx.SaveChanges();
         }
     }
 }

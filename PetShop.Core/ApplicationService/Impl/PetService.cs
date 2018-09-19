@@ -44,6 +44,32 @@ namespace PetShop.Core.ApplicationService.Impl
 
         public Pet CreatePet(Pet pet)
         {
+            string illegalVariables = "";
+            bool hasFailed = false;
+
+            if(pet.Name == null)
+            {
+                hasFailed = true;
+                illegalVariables += "\nPet's name was null! ";
+            }
+            if (pet.Color == null)
+            {
+                hasFailed = true;
+                illegalVariables += "\nPet's color was null! ";
+            }
+            if (pet.PetType == null)
+            {
+                hasFailed = true;
+                illegalVariables += "\nPet's Type was null! ";
+            }
+            if (pet.Price == double.MinValue)
+            {
+                hasFailed = true;
+                illegalVariables += "\nPet's price was null!";
+            }
+
+            if (hasFailed) throw new ArgumentException($"Following fields failed: {illegalVariables}");
+
             return _petRepository.CreatePet(pet);
         }
 

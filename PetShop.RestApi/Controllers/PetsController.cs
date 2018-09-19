@@ -41,9 +41,17 @@ namespace PetShop.RestApi.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] Pet pet)
+        public ActionResult Post([FromBody] Pet pet)
         {
-            _petService.CreatePet(pet);
+            try
+            {
+                _petService.CreatePet(pet);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            return Ok();
         }
 
         // PUT api/values/5
