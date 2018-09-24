@@ -69,7 +69,6 @@ namespace PetShop.RestApi
                     DBSeed.SeedDB(ctx);
                 }
             }
-
             app.UseMvc();
         }
     }

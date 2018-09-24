@@ -24,14 +24,21 @@ namespace PetShop.Data.SQLRepo
         /// <returns>Pet with id from DB.</returns>
         public Pet CreatePet(Pet pet)
         {
-            // If owner exists in DB, attach rather than creating a new.
-            if(pet.Owner != null)
-            {
-                if (_ctx.Owners.FirstOrDefault(x => x.Id == pet.Owner.Id) != null)
-                    _ctx.Owners.Attach(pet.Owner);
-            }
-            _ctx.Pets.Add(pet);
-            _ctx.SaveChanges(); // actually execute the queries
+            //var changeTracker = _ctx.ChangeTracker.Entries<Owner>();
+            //// If owner exists in DB, attach rather than creating a new.
+            //if(pet.Owner != null)
+            //{
+            //    if (_ctx.Owners.FirstOrDefault(x => x.Id == pet.Owner.Id) != null)
+            //    {
+            //        _ctx.Owners.Attach(changeTracker
+            //            .FirstOrDefault(oe => oe.Entity.Id == pet.Owner.Id).Entity);
+            //    }
+            //}
+            //_ctx.Pets.Add(pet);
+            //_ctx.SaveChanges(); // actually execute the queries
+            _ctx.Attach(pet).State = EntityState.Added;
+            _ctx.SaveChanges();
+
             return pet;
         }
 
@@ -102,15 +109,17 @@ namespace PetShop.Data.SQLRepo
         /// <param name="newPet"></param>
         public void SavePet(int id, Pet newPet)
         {
-            if(newPet.Owner != null)
-            {
-                newPet.Owner = _ctx.Owners.FirstOrDefault(x => x.Id == newPet.Owner.Id);
-            }
-            else
-            {
-                _ctx.Entry(newPet).Reference(x => x.Owner).IsModified = true;
-            }
-            _ctx.Update(newPet);
+            //if(newPet.Owner != null)
+            //{
+            //    newPet.Owner = _ctx.Owners.FirstOrDefault(x => x.Id == newPet.Owner.Id);
+            //}
+            //else
+            //{
+            //    _ctx.Entry(newPet).Reference(x => x.Owner).IsModified = true;
+            //}
+            //_ctx.Update(newPet);
+            _ctx.Attach(newPet).State = EntityState.Modified;
+            _ctx.Entry(newPet).Reference(x => x.Owner).IsModified = true;
             _ctx.SaveChanges();
         }
 
