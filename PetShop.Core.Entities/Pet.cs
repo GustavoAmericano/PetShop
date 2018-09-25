@@ -11,9 +11,10 @@ namespace PetShop.Core.Entities
         public string PetType { get; set; }
         public DateTime BirthDate { get; set; }
         public DateTime SoldDate { get; set; }
-        public string Color { get; set; }
         public Double Price { get; set; }
         public Owner Owner { get; set; }
+        public List<PetColor> Colors { get; set; }
+
         //public int OwnerId { get; set; }
 
         public Pet(){}
@@ -26,7 +27,7 @@ namespace PetShop.Core.Entities
             PetType = pet.PetType;
             BirthDate = pet.BirthDate;
             SoldDate = pet.SoldDate;
-            Color = pet.Color;
+            Colors = pet.Colors;
             Price = pet.Price;
             Owner = pet.Owner;
         }

@@ -52,7 +52,7 @@ namespace PetShop.Core.ApplicationService.Impl
                 hasFailed = true;
                 illegalVariables += "\nPet's name was null! ";
             }
-            if (pet.Color == null)
+            if (pet.Colors == null)
             {
                 hasFailed = true;
                 illegalVariables += "\nPet's color was null! ";

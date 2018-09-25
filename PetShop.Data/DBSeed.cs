@@ -10,6 +10,25 @@ namespace PetShop.Data
             ctx.Database.EnsureDeleted(); // Delete ENTIRE Db!
             ctx.Database.EnsureCreated(); // Recreate Db
 
+            var color1 = ctx.Colors.Add(new Color
+            {
+                Id = 1,
+                ColorString = "White",
+            }).Entity;
+
+            var color2 = ctx.Colors.Add(new Color
+            {
+                Id = 2,
+                ColorString = "Black",
+            }).Entity;
+
+            var color3 = ctx.Colors.Add(new Color
+            {
+                Id = 3,
+                ColorString = "Yellow",
+            }).Entity;
+
+
             var owner1 = ctx.Owners.Add(new Owner()
             {
                 FirstName = "Ludvig",
@@ -31,11 +50,19 @@ namespace PetShop.Data
             {
                 Name = "Buster",
                 PetType = "Dog",
-                Color = "Black",
+                //Colors = new PetColor() { };
                 BirthDate = DateTime.Now.AddYears(-2).AddMonths(4).AddDays(-23),
                 SoldDate = DateTime.MinValue,
                 Price = 2500,
                 Owner = owner1
+            }).Entity;
+
+            var petColor1 = ctx.PetColors.Add(new PetColor
+            {
+                PetId = pet1.Id,
+                Pet = pet1,
+                ColorId = color1.Id,
+                Color = color1,
             }).Entity;
 
             ctx.SaveChanges();

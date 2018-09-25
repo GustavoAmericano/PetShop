@@ -4,7 +4,6 @@ using PetShop.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace PetShop.Data.SQLRepo
 {
@@ -77,7 +76,11 @@ namespace PetShop.Data.SQLRepo
         /// <returns>A Pet</returns>
         public Pet GetPetById(int id)
         {
-            Pet pet =  _ctx.Pets.Include(x => x.Owner).FirstOrDefault(x => x.Id == id);
+            var pet =  _ctx.Pets
+                .Include(x => x.Owner)
+                .Include(p => p.Colors)
+                .ThenInclude(p => p.Color)
+                .FirstOrDefault(x => x.Id == id);
             return pet;
         }
 

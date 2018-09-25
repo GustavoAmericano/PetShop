@@ -26,7 +26,7 @@ namespace PetShop.Data.SQLRepo
         /// <returns>Owner with id given by DB.</returns>
         public Owner CreateOwner(Owner owner)
         {
-            owner = _ctx.Owners.Add(owner).Entity;
+            _ctx.Attach(owner).State = EntityState.Added;
             _ctx.SaveChanges();
             return owner;
         }
@@ -74,7 +74,8 @@ namespace PetShop.Data.SQLRepo
         /// <param name="owner"></param>
         public void SaveOwner(int id, Owner owner)
         {
-            _ctx.Update(owner);
+            _ctx.Attach(owner).State = EntityState.Modified;
+            _ctx.Entry(owner).Collection(o => o.Pets).IsModified = true;
             _ctx.SaveChanges();
         }
     }
