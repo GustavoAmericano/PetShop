@@ -23,12 +23,14 @@ namespace PetShop.Data
             modelBuilder.Entity<PetColor>()
                 .HasOne<Color>(pc => pc.Color)
                 .WithMany(c => c.Pets)
-                .HasForeignKey(pc => pc.ColorId);
+                .HasForeignKey(pc => pc.ColorId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<PetColor>()
                 .HasOne<Pet>(pc => pc.Pet)
                 .WithMany(p => p.Colors)
-                .HasForeignKey(pc => pc.PetId);
+                .HasForeignKey(pc => pc.PetId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
         
         public DbSet<Owner> Owners { get; set; }

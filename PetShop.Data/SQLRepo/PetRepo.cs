@@ -42,16 +42,6 @@ namespace PetShop.Data.SQLRepo
         }
 
         /// <summary>
-        /// Deletes specific pet from DB.
-        /// </summary>
-        /// <param name="id"></param>
-        public void DeletePet(int id)
-        {
-            _ctx.Pets.Remove(_ctx.Pets.First(x => x.Id == id));
-            _ctx.SaveChanges();
-        }
-
-        /// <summary>
         /// Gets all pets from the DB
         /// </summary>
         /// <returns>IEnumerable of Pets.</returns>
@@ -61,27 +51,52 @@ namespace PetShop.Data.SQLRepo
         }
 
         /// <summary>
-        /// Gets five cheapest, available pets from DB.
-        /// </summary>
-        /// <returns>IEnumerable of Pets.</returns>
-        public IEnumerable<Pet> GetFiveCheapest()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Gets a specific pet.
         /// </summary>
         /// <param name="id"></param>
         /// <returns>A Pet</returns>
         public Pet GetPetById(int id)
         {
-            var pet =  _ctx.Pets
+            var pet = _ctx.Pets
                 .Include(x => x.Owner)
                 .Include(p => p.Colors)
                 .ThenInclude(p => p.Color)
                 .FirstOrDefault(x => x.Id == id);
             return pet;
+        }
+
+        /// <summary>
+        /// Updates a pet in the DB.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="newPet"></param>
+        public Pet SavePet(int id, Pet newPet)
+        {
+            //if(newPet.Owner != null)
+            //{
+            //    newPet.Owner = _ctx.Owners.FirstOrDefault(x => x.Id == newPet.Owner.Id);
+            //}
+            //else
+            //{
+            //    _ctx.Entry(newPet).Reference(x => x.Owner).IsModified = true;
+            //}
+            //_ctx.Update(newPet);
+            _ctx.Attach(newPet).State = EntityState.Modified;
+            _ctx.Entry(newPet).Reference(x => x.Owner).IsModified = true;
+            _ctx.Entry(newPet).Collection(np => np.Colors).IsModified = true;
+            _ctx.SaveChanges();
+            return newPet;
+        }
+
+        /// <summary>
+        /// Deletes specific pet from DB.
+        /// </summary>
+        /// <param name="id"></param>
+        public void DeletePet(int id)
+        {
+            _ctx.PetColors.RemoveRange(_ctx.PetColors.Where(x => x.PetId == id));
+            _ctx.Pets.Remove(_ctx.Pets.First(x => x.Id == id));
+            _ctx.SaveChanges();
         }
 
         /// <summary>
@@ -106,27 +121,6 @@ namespace PetShop.Data.SQLRepo
         }
 
         /// <summary>
-        /// Updates a pet in the DB.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="newPet"></param>
-        public void SavePet(int id, Pet newPet)
-        {
-            //if(newPet.Owner != null)
-            //{
-            //    newPet.Owner = _ctx.Owners.FirstOrDefault(x => x.Id == newPet.Owner.Id);
-            //}
-            //else
-            //{
-            //    _ctx.Entry(newPet).Reference(x => x.Owner).IsModified = true;
-            //}
-            //_ctx.Update(newPet);
-            _ctx.Attach(newPet).State = EntityState.Modified;
-            _ctx.Entry(newPet).Reference(x => x.Owner).IsModified = true;
-            _ctx.SaveChanges();
-        }
-
-        /// <summary>
         /// Gets a list of pets with a specific type.
         /// </summary>
         /// <param name="type"></param>
@@ -134,6 +128,15 @@ namespace PetShop.Data.SQLRepo
         public IEnumerable<Pet> SearchPetsByType(string type)
         {
             return _ctx.Pets.Where(x => x.PetType.Equals(type));
+        }
+
+        /// <summary>
+        /// Gets five cheapest, available pets from DB. NOT YET IMPLEMENTED
+        /// </summary>
+        /// <returns>IEnumerable of Pets.</returns>
+        public IEnumerable<Pet> GetFiveCheapest()
+        {
+            throw new NotImplementedException();
         }
     }
 }

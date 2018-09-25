@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using PetShop.Core.ApplicationService;
 using PetShop.Core.ApplicationService.Impl;
 using PetShop.Core.DomainService;
-using PetShop.Core.Entities;
 using PetShop.Data;
 using PetShop.Data.SQLRepo;
+
+
+//https://docs.google.com/spreadsheets/d/1w_iVW4kp51oNoKh3bJWZijuUsY8tOtSR_EbGAxxDGqY/edit#gid=0
 
 namespace PetShop.RestApi
 {
@@ -42,9 +36,11 @@ namespace PetShop.RestApi
             // Dependency Inject st00f
             services.AddScoped<IPetRepository, PetRepo>();
             services.AddScoped<IOwnerRepository, OwnerRepo>();
+            services.AddScoped<IColorRepository, ColorRepo>();
 
             services.AddScoped<IPetService, PetService>();
             services.AddScoped<IOwnerService, OwnerService>();
+            services.AddScoped<IColorService, ColorService>();
 
             // Ensure we do not loop entities within entities.
             // E.g. When getting a specific pet,

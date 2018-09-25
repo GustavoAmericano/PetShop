@@ -1,11 +1,9 @@
-﻿using PetShop.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using PetShop.Core.Entities;
 
-namespace PetShop.Core.ApplicationService
+namespace PetShop.Core.DomainService
 {
-    public interface IColorService
+    public interface IColorRepository
     {
         Color CreateColor(Color color); // CREATE
         IEnumerable<Color> GetAllColors(); // READ

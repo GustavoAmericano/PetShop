@@ -12,11 +12,11 @@ namespace PetShop.RestApi.Controllers
     public class PetsController : ControllerBase
     {
         private readonly IPetService _petService;
-        private readonly IOwnerService _ownerService;
+        //private readonly IOwnerService _ownerService;
 
         public PetsController(IPetService petService, IOwnerService ownerService)
         {
-            _ownerService = ownerService;
+            //_ownerService = ownerService;
             _petService = petService;
         }
 
@@ -41,11 +41,11 @@ namespace PetShop.RestApi.Controllers
 
         // POST api/values
         [HttpPost]
-        public ActionResult Post([FromBody] Pet pet)
+        public ActionResult<Pet> Post([FromBody] Pet pet)
         {
             try
             {
-                _petService.CreatePet(pet);
+                return _petService.CreatePet(pet);
             }
             catch (Exception e)
             {
@@ -56,9 +56,9 @@ namespace PetShop.RestApi.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Pet pet)
+        public ActionResult<Pet> Put(int id, [FromBody] Pet pet)
         {
-            _petService.SavePet(id, pet);
+            return _petService.SavePet(id, pet);
         }
 
         // DELETE api/values/5

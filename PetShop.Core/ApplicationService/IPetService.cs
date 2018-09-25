@@ -16,7 +16,7 @@ namespace PetShop.Core.ApplicationService
 
         Pet CreatePet(Pet pet);
         void DeletePet(int id);
-        void SavePet(int id, Pet newPet);
+        Pet SavePet(int id, Pet newPet);
 
         
     }

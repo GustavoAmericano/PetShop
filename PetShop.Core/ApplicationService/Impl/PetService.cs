@@ -52,11 +52,11 @@ namespace PetShop.Core.ApplicationService.Impl
                 hasFailed = true;
                 illegalVariables += "\nPet's name was null! ";
             }
-            if (pet.Colors == null)
-            {
-                hasFailed = true;
-                illegalVariables += "\nPet's color was null! ";
-            }
+            //if (pet.Colors == null)
+            //{
+            //    hasFailed = true;
+            //    illegalVariables += "\nPet's color was null! ";
+            //}
             if (pet.PetType == null)
             {
                 hasFailed = true;
@@ -78,9 +78,9 @@ namespace PetShop.Core.ApplicationService.Impl
             _petRepository.DeletePet(id);
         }
 
-        public void SavePet(int id, Pet newPet)
+        public Pet SavePet(int id, Pet newPet)
         {
-            _petRepository.SavePet(id, newPet);
+            return _petRepository.SavePet(id, newPet);
         }
 
         public Pet GetPetById(int id)
