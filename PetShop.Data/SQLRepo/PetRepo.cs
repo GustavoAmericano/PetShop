@@ -24,19 +24,15 @@ namespace PetShop.Data.SQLRepo
         public Pet CreatePet(Pet pet)
         {
             //var changeTracker = _ctx.ChangeTracker.Entries<Owner>();
-            //// If owner exists in DB, attach rather than creating a new.
-            //if(pet.Owner != null)
-            //{
-            //    if (_ctx.Owners.FirstOrDefault(x => x.Id == pet.Owner.Id) != null)
-            //    {
-            //        _ctx.Owners.Attach(changeTracker
-            //            .FirstOrDefault(oe => oe.Entity.Id == pet.Owner.Id).Entity);
-            //    }
-            //}
-            //_ctx.Pets.Add(pet);
-            //_ctx.SaveChanges(); // actually execute the queries
-            _ctx.Attach(pet).State = EntityState.Added;
-            _ctx.SaveChanges();
+            try
+            {
+                _ctx.Attach(pet).State = EntityState.Added;
+                _ctx.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Failed to create pet!");
+            }
 
             return pet;
         }
@@ -47,7 +43,14 @@ namespace PetShop.Data.SQLRepo
         /// <returns>IEnumerable of Pets.</returns>
         public IEnumerable<Pet> GetAllPets()
         {
-            return _ctx.Pets;
+            try
+            {
+                return _ctx.Pets;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Failed to load pets from Database!");
+            }
         }
 
         /// <summary>
@@ -57,12 +60,21 @@ namespace PetShop.Data.SQLRepo
         /// <returns>A Pet</returns>
         public Pet GetPetById(int id)
         {
-            var pet = _ctx.Pets
-                .Include(x => x.Owner)
-                .Include(p => p.Colors)
-                .ThenInclude(p => p.Color)
-                .FirstOrDefault(x => x.Id == id);
+            Pet pet = null;
+            try
+            {
+                 pet = _ctx.Pets
+                    .Include(x => x.Owner)
+                    .Include(p => p.Colors)
+                    .ThenInclude(p => p.Color)
+                    .FirstOrDefault(x => x.Id == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Could not load pet with ID {id}. Does it exist?");
+            }
             return pet;
+
         }
 
         /// <summary>
@@ -81,10 +93,18 @@ namespace PetShop.Data.SQLRepo
             //    _ctx.Entry(newPet).Reference(x => x.Owner).IsModified = true;
             //}
             //_ctx.Update(newPet);
-            _ctx.Attach(newPet).State = EntityState.Modified;
-            _ctx.Entry(newPet).Reference(x => x.Owner).IsModified = true;
-            _ctx.Entry(newPet).Collection(np => np.Colors).IsModified = true;
-            _ctx.SaveChanges();
+            if(!_ctx.Pets.Any(x => x.Id == id)) throw new ArgumentException($"Could not find any pet with ID {id}!");
+            try
+            {
+                _ctx.Attach(newPet).State = EntityState.Modified;
+                _ctx.Entry(newPet).Reference(x => x.Owner).IsModified = true;
+                _ctx.Entry(newPet).Collection(np => np.Colors).IsModified = true;
+                _ctx.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Failed to save pet!");
+            }
             return newPet;
         }
 
@@ -94,9 +114,18 @@ namespace PetShop.Data.SQLRepo
         /// <param name="id"></param>
         public void DeletePet(int id)
         {
-            _ctx.PetColors.RemoveRange(_ctx.PetColors.Where(x => x.PetId == id));
-            _ctx.Pets.Remove(_ctx.Pets.First(x => x.Id == id));
-            _ctx.SaveChanges();
+            if(!_ctx.Pets.Any(x => x.Id == id))
+                throw new ArgumentException($"No pet with ID {id} was found!");
+            try
+            {
+                _ctx.PetColors.RemoveRange(_ctx.PetColors.Where(x => x.PetId == id));
+                _ctx.Pets.Remove(_ctx.Pets.First(x => x.Id == id));
+                _ctx.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Failed to delete pet!");
+            }
         }
 
         /// <summary>

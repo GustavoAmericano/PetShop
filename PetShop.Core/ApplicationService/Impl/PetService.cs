@@ -19,27 +19,62 @@ namespace PetShop.Core.ApplicationService.Impl
 
         public IEnumerable<Pet> GetAllPets()
         {
-            return _petRepository.GetAllPets();
+            try
+            {
+                return _petRepository.GetAllPets();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public IEnumerable<Pet> GetFiveCheapest()
         {
-            return _petRepository.GetFiveCheapest();
+            try
+            {
+                return _petRepository.GetFiveCheapest();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public IEnumerable<Pet> GetPetsPriceSort(bool ascend)
         {
-            return _petRepository.GetPetsPriceSort(ascend);
+            try
+            {
+                return _petRepository.GetPetsPriceSort(ascend);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public IEnumerable<Pet> SearchPetsByType(string type)
         {
-            return _petRepository.SearchPetsByType(type);
+            try
+            {
+                return _petRepository.SearchPetsByType(type);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public IEnumerable<Pet> GetPetsByOwnerId(int id)
         {
-            return _petRepository.GetPetsByOwnerId(id);
+            try
+            {
+                return _petRepository.GetPetsByOwnerId(id);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public Pet CreatePet(Pet pet)
@@ -52,11 +87,6 @@ namespace PetShop.Core.ApplicationService.Impl
                 hasFailed = true;
                 illegalVariables += "\nPet's name was null! ";
             }
-            //if (pet.Colors == null)
-            //{
-            //    hasFailed = true;
-            //    illegalVariables += "\nPet's color was null! ";
-            //}
             if (pet.PetType == null)
             {
                 hasFailed = true;
@@ -70,22 +100,52 @@ namespace PetShop.Core.ApplicationService.Impl
 
             if (hasFailed) throw new ArgumentException($"Following fields failed: {illegalVariables}");
 
-            return _petRepository.CreatePet(pet);
+            try
+            {
+                return _petRepository.CreatePet(pet);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
         }
 
         public void DeletePet(int id)
         {
-            _petRepository.DeletePet(id);
+            try
+            {
+                _petRepository.DeletePet(id);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public Pet SavePet(int id, Pet newPet)
         {
-            return _petRepository.SavePet(id, newPet);
+            if (id != newPet.Id) throw new ArgumentException("Id does not match!");
+            try
+            {
+                return _petRepository.SavePet(id, newPet);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public Pet GetPetById(int id)
         {
-           return _petRepository.GetPetById(id);
+            try
+            {
+                return _petRepository.GetPetById(id);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }

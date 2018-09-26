@@ -24,19 +24,29 @@ namespace PetShop.RestApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Pet>> Get()
         {
-            return _petService.GetAllPets().ToList();
+            try
+            {
+                return _petService.GetAllPets().ToList();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<Pet> Get(int id)
         {
-            Pet pet = _petService.GetPetById(id);
-            if(pet == null)
+            try
             {
-                return BadRequest("Pet with ID " + id + " does not exist.");
+                Pet pet = _petService.GetPetById(id);
+                return pet;
             }
-            return pet;
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         // POST api/values
@@ -57,14 +67,29 @@ namespace PetShop.RestApi.Controllers
         [HttpPut("{id}")]
         public ActionResult<Pet> Put(int id, [FromBody] Pet pet)
         {
-            return _petService.SavePet(id, pet);
+            try
+            {
+                return _petService.SavePet(id, pet);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult Delete(int id)
         {
-            _petService.DeletePet(id);
+            try
+            {
+                _petService.DeletePet(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }
