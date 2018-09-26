@@ -51,7 +51,6 @@ namespace PetShop.RestApi.Controllers
             {
                 return BadRequest(e.Message);
             }
-            return Ok();
         }
 
         // PUT api/values/5

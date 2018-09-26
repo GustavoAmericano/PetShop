@@ -18,20 +18,43 @@ namespace PetShop.RestApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private IConfiguration _cfg { get; }
+        private IHostingEnvironment _env { get; set; }
+        //public Startup(IConfiguration configuration)
+        //{
+        //    Configuration = configuration;
+        //}
+
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            this._env = env;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            _cfg = builder.Build();
         }
 
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
             // Tell Context that we use SQLite
-            services.AddDbContext<PetShopContext>(
-                opt => opt.UseSqlite("Data Source=PetShopDB.db"));
+            //services.AddDbContext<PetShopContext>(
+            //    opt => opt.UseSqlite("Data Source=PetShopDB.db"));
+
+            if (_env.IsDevelopment())
+            {
+                services.AddDbContext<PetShopContext>(
+                    opt => opt.UseSqlite("Data Source=customerApp.db"));
+            }
+            else if (_env.IsProduction())
+            {
+                services.AddDbContext<PetShopContext>(
+                    opt => opt.UseSqlServer(_cfg.GetConnectionString("DefaultConnection")));
+            }
 
             // Dependency Inject st00f
             services.AddScoped<IPetRepository, PetRepo>();
@@ -64,6 +87,15 @@ namespace PetShop.RestApi
                     var ctx = scope.ServiceProvider.GetService<PetShopContext>(); // Set ctx to reference to PetShopContext
                     DBSeed.SeedDB(ctx);
                 }
+            }
+            else
+            {
+                using (var scope = app.ApplicationServices.CreateScope())
+                {
+                    var ctx = scope.ServiceProvider.GetService<PetShopContext>();
+                    ctx.Database.EnsureCreated();
+                }
+                app.UseHsts();
             }
             app.UseMvc();
         }
