@@ -40,7 +40,7 @@ namespace PetShop.RestApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddCors();
             // Tell Context that we use SQLite
             //services.AddDbContext<PetShopContext>(
             //    opt => opt.UseSqlite("Data Source=PetShopDB.db"));
@@ -79,6 +79,8 @@ namespace PetShop.RestApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseDeveloperExceptionPage();
+
             if (env.IsDevelopment()) // If in Dev..
             {
                 app.UseDeveloperExceptionPage();
@@ -97,6 +99,13 @@ namespace PetShop.RestApi
                 }
                 app.UseHsts();
             }
+
+            app.UseCors(builder =>
+                builder.WithOrigins("https://ga-petshop.azurewebsites.net")
+                    .AllowAnyMethod()
+                    .WithOrigins("http://localhost")
+                    .AllowAnyMethod());
+
             app.UseMvc();
         }
     }
