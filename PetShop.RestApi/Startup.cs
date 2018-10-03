@@ -103,7 +103,7 @@ namespace PetShop.RestApi
             app.UseCors(builder =>
                 builder.WithOrigins("https://ga-petshop.azurewebsites.net")
                     .AllowAnyMethod()
-                    .WithOrigins("http://localhost")
+                    .WithOrigins("http://localhost:63342")
                     .AllowAnyMethod());
 
             app.UseMvc();
