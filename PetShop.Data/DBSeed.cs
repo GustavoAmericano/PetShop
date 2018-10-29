@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Security.Cryptography;
+using System.Text;
 using PetShop.Core.Entities;
 
 namespace PetShop.Data
@@ -9,6 +11,24 @@ namespace PetShop.Data
         {
             ctx.Database.EnsureDeleted(); // Delete ENTIRE Db!
             ctx.Database.EnsureCreated(); // Recreate Db
+            var salt = GenerateSalt();
+            var hash = GenerateHash("Blyat" + salt);
+            var user1 = ctx.Users.Add(new User
+            {
+                Id = 1,
+                Username = "Blyat",
+                PasswordSalt = salt,
+                PasswordHash = hash,
+                IsAdmin = false
+            }).Entity;
+            var user2 = ctx.Users.Add(new User
+            {
+                Id = 2,
+                Username = "Nahui",
+                PasswordSalt = salt,
+                PasswordHash = hash,
+                IsAdmin = true
+            }).Entity;
 
             var color1 = ctx.Colors.Add(new Color
             {
@@ -66,6 +86,26 @@ namespace PetShop.Data
             }).Entity;
 
             ctx.SaveChanges();
+        }
+
+        private static string GenerateSalt()
+        {
+            byte[] bytes = new byte[128 / 8];
+            using (var keyGenerator = RandomNumberGenerator.Create())
+            {
+                keyGenerator.GetBytes(bytes);
+                return BitConverter.ToString(bytes).Replace("-", "").ToLower();
+            }
+        }
+
+        private static string GenerateHash(string input)
+        {
+            using (var sha = SHA256Managed.Create())
+            {
+                var bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+                return BitConverter.ToString(bytes);
+            }
         }
     }
 }

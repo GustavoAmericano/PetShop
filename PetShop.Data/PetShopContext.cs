@@ -12,6 +12,9 @@ namespace PetShop.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>()
+                .HasKey(u => u.Id);
+
             modelBuilder.Entity<Pet>()
                 .HasOne(p => p.Owner)
                 .WithMany(o => o.Pets)
@@ -30,10 +33,12 @@ namespace PetShop.Data
                 .WithMany(p => p.Colors)
                 .HasForeignKey(pc => pc.PetId);
         }
-        
+
+        public DbSet<User> Users { get; set; }
         public DbSet<Owner> Owners { get; set; }
         public DbSet<Pet> Pets { get; set; }
         public DbSet<Color> Colors { get; set; }
         public DbSet<PetColor> PetColors { get; set; }
+        
     }
 }

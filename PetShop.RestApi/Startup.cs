@@ -1,15 +1,19 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using PetShop.Core.ApplicationService;
 using PetShop.Core.ApplicationService.Impl;
 using PetShop.Core.DomainService;
 using PetShop.Data;
 using PetShop.Data.SQLRepo;
+using PetShop.RestApi.Helpers;
 
 
 //https://docs.google.com/spreadsheets/d/1w_iVW4kp51oNoKh3bJWZijuUsY8tOtSR_EbGAxxDGqY/edit#gid=0
@@ -28,6 +32,7 @@ namespace PetShop.RestApi
         public Startup(IHostingEnvironment env)
         {
             this._env = env;
+            JwtSecurityKey.SetSecret("CykaBlyatNahuiKurwa");
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -40,6 +45,20 @@ namespace PetShop.RestApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                    {
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuer = false,
+                            ValidateAudience = false,
+                            ValidateIssuerSigningKey = true,
+                            IssuerSigningKey = JwtSecurityKey.Key, 
+                            ValidateLifetime = true,
+                            ClockSkew = TimeSpan.FromMinutes(5)
+                        };
+                    }
+                );
             services.AddCors();
             // Tell Context that we use SQLite
             //services.AddDbContext<PetShopContext>(
@@ -60,10 +79,12 @@ namespace PetShop.RestApi
             services.AddScoped<IPetRepository, PetRepo>();
             services.AddScoped<IOwnerRepository, OwnerRepo>();
             services.AddScoped<IColorRepository, ColorRepo>();
+            services.AddScoped<IUserRepository, UserRepo>();
 
             services.AddScoped<IPetService, PetService>();
             services.AddScoped<IOwnerService, OwnerService>();
             services.AddScoped<IColorService, ColorService>();
+            services.AddScoped<IUserService, UserService>();
 
             // Ensure we do not loop entities within entities.
             // E.g. When getting a specific pet,
@@ -105,6 +126,8 @@ namespace PetShop.RestApi
                     .AllowAnyMethod()
                     .WithOrigins("http://localhost:63342")
                     .AllowAnyMethod());
+
+            app.UseAuthentication();
 
             app.UseMvc();
         }
