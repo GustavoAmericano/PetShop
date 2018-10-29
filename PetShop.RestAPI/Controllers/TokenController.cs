@@ -24,7 +24,6 @@ namespace PetShop.RestApi.Controllers
         {
             _userService = userService;
         }
-
         [HttpPost]
         public IActionResult Login([FromBody]LoginInput input)
         {

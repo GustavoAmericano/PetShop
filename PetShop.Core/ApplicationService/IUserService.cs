@@ -8,8 +8,8 @@ namespace PetShop.Core.ApplicationService
         User ValidateUser(LoginInput input);
         IEnumerable<User> GetAllUsers();
         User GetUserById(int id);
-        User UpdateUser(UserInput userInput);
-        User CreateNewUser(UserInput userInput);
+        User UpdateUser(UpdateUserInput userInput);
+        User CreateNewUser(CreateUserInput userInput);
         void DeleteUser(User user);
     }
 }

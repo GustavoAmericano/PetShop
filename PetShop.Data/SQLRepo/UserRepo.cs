@@ -18,33 +18,47 @@ namespace PetShop.Data.SQLRepo
 
         public User ValidateUser(LoginInput input)
         {
-            return _ctx.Users.FirstOrDefault(u => string.Equals(u.Username, input.Username, StringComparison.CurrentCultureIgnoreCase));
+            return _ctx.Users
+                .FirstOrDefault(u => string.Equals(u.Username, input.Username, StringComparison.CurrentCultureIgnoreCase));
         }
 
         public IEnumerable<User> GetAllUsers()
         {
-            return _ctx.Users;
+            return _ctx.Users.ToList().Select(x =>
+            {
+                x.PasswordHash = null;
+                x.PasswordSalt = null;
+                return x;
+            });
+
         }
 
         public User GetUserById(int id)
         {
-            return _ctx.Users.FirstOrDefault(u => u.Id == id);
+            User user = _ctx.Users.FirstOrDefault(u => u.Id == id);
+            _ctx.Entry(user).State = EntityState.Detached;
+            return user;
         }
 
-        public User UpdateUser(UserInput userInput)
+        public User UpdateUser(User user)
         {
-            return null;
+            _ctx.Entry(user).State = EntityState.Modified;
+            _ctx.SaveChanges();
+            return user;
         }
 
-        public User CreateNewUser(UserInput userInput)
+        public User CreateNewUser(User user)
         {
-            throw new NotImplementedException();
+            _ctx.Entry(user).State = EntityState.Added;
+            _ctx.SaveChanges();
+            return user;
         }
 
 
         public void DeleteUser(User user)
         {
-            throw new System.NotImplementedException();
+            _ctx.Entry(user).State = EntityState.Deleted;
+            _ctx.SaveChanges();
         }
     }
 }

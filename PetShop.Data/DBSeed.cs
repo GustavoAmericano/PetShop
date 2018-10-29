@@ -19,6 +19,8 @@ namespace PetShop.Data
                 Username = "Blyat",
                 PasswordSalt = salt,
                 PasswordHash = hash,
+                CreationDate = DateTime.Today.AddDays(-302),
+                LastLogin = DateTime.Today.AddHours(-3),
                 IsAdmin = false
             }).Entity;
             var user2 = ctx.Users.Add(new User
@@ -27,6 +29,8 @@ namespace PetShop.Data
                 Username = "Nahui",
                 PasswordSalt = salt,
                 PasswordHash = hash,
+                CreationDate = DateTime.Today.AddDays(-32),
+                LastLogin = DateTime.Today.AddHours(-333),
                 IsAdmin = true
             }).Entity;
 
