@@ -131,7 +131,6 @@ namespace PetShop.RestApi
                     .AllowAnyMethod()
                     .AllowAnyMethod().WithHeaders("content-type")
                     .WithOrigins("http://localhost:63342")
-                    .AllowAnyMethod());
                     .AllowAnyMethod().WithHeaders("content-type"));
 
             app.UseAuthentication();
