@@ -82,23 +82,19 @@ namespace PetShop.Core.ApplicationService.Impl
             string illegalVariables = "";
             bool hasFailed = false;
 
-            if(pet.Name == null)
             if(pet.Name == null || pet.Name == "")
             {
                 hasFailed = true;
                 illegalVariables += "\nPet's name was null! ";
             }
-            if (pet.PetType == null)
             if (pet.PetType == null || pet.PetType == "")
             {
                 hasFailed = true;
                 illegalVariables += "\nPet's Type was null! ";
             }
-            if (pet.Price == double.MinValue)
             if (pet.Price < 0)
             {
                 hasFailed = true;
-                illegalVariables += "\nPet's price was null!";
                 illegalVariables += "\nPet's price was null or negative!";
             }
 
