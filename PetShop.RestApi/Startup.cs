@@ -127,11 +127,7 @@ namespace PetShop.RestApi
             }
 
             app.UseCors(builder =>
-                builder.WithOrigins("https://ga-petshop.azurewebsites.net")
-                    .AllowAnyMethod()
-                    .AllowAnyMethod().WithHeaders("content-type")
-                    .WithOrigins("http://localhost:63342")
-                    .AllowAnyMethod().WithHeaders("content-type"));
+                builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
             app.UseAuthentication();
 
