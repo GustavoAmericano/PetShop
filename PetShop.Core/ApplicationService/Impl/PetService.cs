@@ -82,20 +82,20 @@ namespace PetShop.Core.ApplicationService.Impl
             string illegalVariables = "";
             bool hasFailed = false;
 
-            if(pet.Name == null || pet.Name == "")
+            if(pet.Name == null)
             {
                 hasFailed = true;
                 illegalVariables += "\nPet's name was null! ";
             }
-            if (pet.PetType == null || pet.PetType == "")
+            if (pet.PetType == null)
             {
                 hasFailed = true;
                 illegalVariables += "\nPet's Type was null! ";
             }
-            if (pet.Price < 0)
+            if (pet.Price == double.MinValue)
             {
                 hasFailed = true;
-                illegalVariables += "\nPet's price was null or negative!";
+                illegalVariables += "\nPet's price was null!";
             }
 
             if (hasFailed) throw new ArgumentException($"Following fields failed: {illegalVariables}");
