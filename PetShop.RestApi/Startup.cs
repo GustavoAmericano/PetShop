@@ -121,7 +121,8 @@ namespace PetShop.RestApi
                 using (var scope = app.ApplicationServices.CreateScope())
                 {
                     var ctx = scope.ServiceProvider.GetService<PetShopContext>();
-                    ctx.Database.Migrate();
+                    ctx.Database.EnsureDeleted();
+                    ctx.Database.EnsureCreated();
                 }
                 app.UseHsts();
             }
