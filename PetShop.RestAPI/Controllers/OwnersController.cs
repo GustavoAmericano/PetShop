@@ -17,7 +17,7 @@ namespace PetShop.RestApi.Controllers
             _ownerService = ownerService;
         }
         // GET: api/owners
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         public IEnumerable<Owner> Get()
         {
@@ -25,7 +25,7 @@ namespace PetShop.RestApi.Controllers
         }
 
         // GET: api/owners/5
-        //[Authorize]
+        [Authorize]
         [HttpGet("{id}", Name = "Get")]
         public ActionResult<Owner> Get(int id)
         {
@@ -38,7 +38,7 @@ namespace PetShop.RestApi.Controllers
         }
 
         // POST: api/owners
-        //[Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         public ActionResult<Owner> Post([FromBody] Owner owner)
         {
@@ -50,7 +50,7 @@ namespace PetShop.RestApi.Controllers
         }
 
         // PUT: api/owners/5
-        //[Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN")]
         [HttpPut("{id}")]
         public ActionResult Put(int id, [FromBody] Owner owner)
         {
@@ -63,7 +63,7 @@ namespace PetShop.RestApi.Controllers
         }
 
         // DELETE: api/owners
-        //[Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN")]
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
