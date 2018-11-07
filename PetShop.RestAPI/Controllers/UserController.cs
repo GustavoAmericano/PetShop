@@ -23,7 +23,7 @@ namespace PetShop.RestApi.Controllers
         }
 
         // GET: api/User
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         [HttpGet]
         public ActionResult<List<User>> Get()
         {
@@ -38,7 +38,7 @@ namespace PetShop.RestApi.Controllers
         }
 
         // GET: api/User/5
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         [HttpGet("{id}")]
         public ActionResult<User> Get(int id)
         {
@@ -53,7 +53,7 @@ namespace PetShop.RestApi.Controllers
         }
 
         // POST: api/User
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         [HttpPost]
         public ActionResult<User> Post([FromBody] CreateUserInput user)
         {
@@ -68,7 +68,7 @@ namespace PetShop.RestApi.Controllers
         }
 
         // PUT: api/User/5
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         [HttpPut("{id}")]
         public ActionResult<User> Put(int id, [FromBody] UpdateUserInput input)
         {
@@ -85,7 +85,7 @@ namespace PetShop.RestApi.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         [HttpDelete("{id}")]
         public ActionResult Delete([FromBody] User user)
         {
