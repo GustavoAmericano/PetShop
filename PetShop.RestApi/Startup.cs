@@ -59,14 +59,7 @@ namespace PetShop.RestApi
                         };
                     }
                 );
-
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAllOrigins",
-                    builder => builder.AllowAnyOrigin().AllowAnyHeader()
-                        .AllowAnyMethod());
-            });
-
+            services.AddCors();
             // Tell Context that we use SQLite
             //services.AddDbContext<PetShopContext>(
             //    opt => opt.UseSqlite("Data Source=PetShopDB.db"));
@@ -129,7 +122,8 @@ namespace PetShop.RestApi
                 app.UseHsts();
             }
 
-            app.UseCors("AllowAllOrigins");
+            app.UseCors(builder =>
+                builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
             app.UseAuthentication();
 
